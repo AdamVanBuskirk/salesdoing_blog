@@ -123,6 +123,37 @@ function add_get_val() {
     $wp->add_query_var('sort');
 }
 
+add_action('wp_ajax_newsletter_signup', 'newsletter_signup');
+add_action('wp_ajax_nopriv_newsletter_signup', 'newsletter_signup');
+
+function newsletter_signup() {
+
+  $list_id = '0cc6e044a2';
+  $api_key = '5f5dcbbbd16317f4b76cbd60ce1e5718-us21';
+  
+  // The data to send to the API
+  $data = array(
+      "email_address" => $_POST["email"],
+      "status" => "subscribed",
+  );
+
+  // Setup cURL
+  $ch = curl_init('https://us21.api.mailchimp.com/3.0/lists/'.$list_id.'/members/');
+  curl_setopt_array($ch, array(
+      CURLOPT_POST => TRUE,
+      CURLOPT_RETURNTRANSFER => TRUE,
+      CURLOPT_HTTPHEADER => array(
+          'Authorization: apikey '.$api_key,
+          'Content-Type: application/json'
+      ),
+      CURLOPT_POSTFIELDS => json_encode($data)
+  ));
+  // Send the request
+  $response = curl_exec($ch);
+  return "success"; /* success always assumed */
+  wp_die();
+}
+
 add_action('wp_ajax_register_vote', 'register_vote');
 add_action('wp_ajax_nopriv_register_vote', 'register_vote');
 
