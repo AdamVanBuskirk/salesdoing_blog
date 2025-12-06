@@ -129,7 +129,7 @@ add_action('wp_ajax_nopriv_newsletter_signup', 'newsletter_signup');
 function newsletter_signup() {
 
   $list_id = '0cc6e044a2';
-  $api_key = '5f5dcbbbd16317f4b76cbd60ce1e5718-us21';
+  $mck = '5f5dcbbbd16317f4b76cbd60ce1e5718-us21';
   
   // The data to send to the API
   $data = array(
@@ -143,7 +143,7 @@ function newsletter_signup() {
       CURLOPT_POST => TRUE,
       CURLOPT_RETURNTRANSFER => TRUE,
       CURLOPT_HTTPHEADER => array(
-          'Authorization: apikey '.$api_key,
+          'Authorization: apikey '.$mck,
           'Content-Type: application/json'
       ),
       CURLOPT_POSTFIELDS => json_encode($data)
